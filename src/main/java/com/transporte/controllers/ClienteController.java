@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping
 public class ClienteController {
     @Autowired
     private ClientService clientService;

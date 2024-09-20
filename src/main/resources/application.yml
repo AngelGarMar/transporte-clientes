@@ -10,12 +10,14 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
 
-  eureka:
+eureka:
+  instance:
+    instance-id: "${spring.application.name}:${random.value}"
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
     instance:
-      instance-id: "${spring.application.name}:${random.value}"
-    client:
-      service-url:
-        defaultZone: http://localhost:8761/eureka
+      prefer-ip-address: true
 
-  server:
-    port: 0
+server:
+  port: 0

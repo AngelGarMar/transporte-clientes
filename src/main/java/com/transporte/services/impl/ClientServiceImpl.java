@@ -2,6 +2,7 @@ package com.transporte.services.impl;
 
 import com.transporte.constants.Constants;
 import com.transporte.dto.RegisterClientRequest;
+import com.transporte.dto.RegisterClientResponse;
 import com.transporte.entities.Cliente;
 import com.transporte.models.ResponseService;
 import com.transporte.repositories.ClientRepository;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
@@ -29,6 +32,21 @@ public class ClientServiceImpl implements ClientService {
         if (clientOp.isPresent()) {
             return new ResponseService(Constants.RESPONSE_TYPE_ERROR, Constants.CLIENTE_EXISTENTE, null);
         }
-        return null;
+
+        Cliente clienteSaved =Cliente.builder()
+                .nombre(registerClientRequest.getNombre())
+                .apaterno(registerClientRequest.getApaterno())
+                .amaterno(registerClientRequest.getAmaterno())
+                .credencial("credencial")
+                .edad(registerClientRequest.getEdad())
+                .insen(registerClientRequest.getInsen())
+                .celular(registerClientRequest.getCelular())
+                .tarjetaId(registerClientRequest.getTarjetaId())
+                .creado(LocalDateTime.now(ZoneId.of("America/Mexico_City")))
+                .estatus(1)
+                .build();
+        clienteSaved = clientRepository.save(clienteSaved);
+        RegisterClientResponse clientResponse = new RegisterClientResponse(clienteSaved);
+        return new ResponseService(Constants.RESPONSE_TYPE_SUCCESS, Constants.CLIENTE_GUARDADO, clientResponse);
     }
 }
