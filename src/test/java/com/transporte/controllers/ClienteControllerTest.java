@@ -68,7 +68,7 @@ class ClienteControllerTest {
     @Test
     @Order(3)
     void testGetClientById() throws JsonProcessingException {
-        ResponseEntity<ResponseService> respuesta = client.getForEntity(crearUri("/4"), ResponseService.class);
+        ResponseEntity<ResponseService> respuesta = client.getForEntity(crearUri("/5"), ResponseService.class);
         assertEquals(HttpStatus.OK, respuesta.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, respuesta.getHeaders().getContentType());
         ResponseService response = respuesta.getBody();
