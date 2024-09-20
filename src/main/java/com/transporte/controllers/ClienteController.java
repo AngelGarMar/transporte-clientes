@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +26,24 @@ public class ClienteController {
             return validation(result);
         }
         ResponseService response = clientService.newClient(registerClientRequest);
+        return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseService> getClients() {
+        ResponseService response = clientService.getClientes();
+        return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseService> getClientById(@PathVariable Long id) {
+        ResponseService response = clientService.getCliente(id);
+        return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseService> deleteClient(@PathVariable Long id) {
+        ResponseService response = clientService.deleteClient(id);
         return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
     }
 
