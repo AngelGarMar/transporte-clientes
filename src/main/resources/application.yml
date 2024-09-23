@@ -21,3 +21,9 @@ eureka:
 
 server:
   port: 0
+
+transporte:
+  sapi:
+    gateway: http://localhost:4040
+    Logs:
+      saveRequest: ${transporte.sapi.gateway}/api/v1/logs/

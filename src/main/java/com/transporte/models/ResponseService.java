@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseService implements Serializable {
-private String responseType;
-private String message;
-private Object data;
+    private String responseType;
+    private String message;
+    private Object data;
 }

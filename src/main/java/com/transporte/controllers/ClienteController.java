@@ -60,7 +60,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", description = "No existe el cliente."),
             @ApiResponse(responseCode = "200", description = "El cliente ya existe.")
     })
-    public ResponseEntity<ResponseService> getClientById(@PathVariable Long id) {
+    public ResponseEntity<ResponseService> getClientById(@PathVariable("id") Long id) {
         ResponseService response = clientService.getCliente(id);
         return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
     }
@@ -73,7 +73,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", description = "El cliente ya se encuentra eliminado."),
             @ApiResponse(responseCode = "200", description = "Cliente eliminado.")
     })
-    public ResponseEntity<ResponseService> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<ResponseService> deleteClient(@PathVariable("id") Long id) {
         ResponseService response = clientService.deleteClient(id);
         return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
     }
