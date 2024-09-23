@@ -9,7 +9,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping
+@Slf4j
 public class ClienteController {
     @Autowired
     private ClientService clientService;
@@ -35,9 +38,11 @@ public class ClienteController {
     //https://www.kranio.io/blog/integra-swagger-con-spring-boot-documenta-tus-apis-restful
     //http://localhost:8796/swagger-ui/index.html
     public ResponseEntity<ResponseService> newClient(@RequestBody @Valid RegisterClientRequest registerClientRequest, BindingResult result) {
+        log.info("Llamada a metodo del controller ClienteController::newClient");
         if (result.hasFieldErrors()) {
             return validation(result);
         }
+        log.info("Request parameter: {}", registerClientRequest);
         ResponseService response = clientService.newClient(registerClientRequest);
         return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
     }
@@ -48,8 +53,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", description = "No existen clientes."),
             @ApiResponse(responseCode = "200", description = "Se muestran clientes.")
     })
-    public ResponseEntity<ResponseService> getClients() {
+    public ResponseEntity<ResponseService> getClients(@Value("${server.port}") String port) {
         ResponseService response = clientService.getClientes();
+        log.info(port);
         return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
     }
 
@@ -74,7 +80,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", description = "Cliente eliminado.")
     })
     public ResponseEntity<ResponseService> deleteClient(@PathVariable("id") Long id) {
+        log.info("Porudcot eliminado: {}", id);
         ResponseService response = clientService.deleteClient(id);
+        log.info("Porudcot eliminado: {}", response.getData());
         return new ResponseEntity<ResponseService>(response, HttpStatus.OK);
     }
 
